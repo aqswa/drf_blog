@@ -62,7 +62,11 @@ class CommentView(views.APIView):
         serializer = CommentSerializer(comment, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response({
+                "comment": serializer.data,
+                "message": "댓글 수정 성공",
+            },
+                status=status.HTTP_200_OK,)
         return Response(serializer.errors)
 
     def delete(self, request, pk, format=None):
